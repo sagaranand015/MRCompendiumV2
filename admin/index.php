@@ -313,6 +313,9 @@
                 popup.append("Your Startup files have been successfully uploaded.").fadeIn();
             }
 
+            // hide the loading gif after the page has loaded.
+            hideLoading();
+
         });   // end of window.load function.
 
         // for the document.ready function
@@ -353,6 +356,9 @@
                 overlay.removeClass('overlay-show');
                 overlay.addClass('overlay-remove'); 
             }
+
+            // to show the loading gif at page loading
+            showLoading();
 
             // for checking the query string and all.
             var qs = getQueryStrings();

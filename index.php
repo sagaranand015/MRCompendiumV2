@@ -247,6 +247,9 @@
                 overlay.addClass('overlay-remove'); 
             }
 
+            // hide the loading here after the page has been loaded.
+            hideLoading();
+
         });   // end of window.load function
 
         // for the main ready function
@@ -273,6 +276,9 @@
                 overlay.removeClass('overlay-show');
                 overlay.addClass('overlay-remove'); 
             }
+
+            // show the loading here while the page uploads.
+            showLoading();
 
              // for checking the query string and all.
             var qs = getQueryStrings();
@@ -530,6 +536,9 @@
                     </li>
                     <li>
                         <a href="#" id="btn-subscribe">Subscribe</a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-login">Login</a>
                     </li>
                 </ul>
             </div>   <!-- /.navbar-collapse -->
