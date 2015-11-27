@@ -17,6 +17,31 @@ else if(isset($_GET["payload"]) && $_GET["payload"] == "sector") {
 else if(isset($_GET["payload"]) && $_GET["payload"] == "startup") {
 	GetStartupsThumbnailData();
 }
+else if(isset($_GET["no"]) && $_GET["no"] == "1") {
+	SubscribeUser($_GET["email"], $_GET["name"]);
+}
+
+// to subscribe the user to the database list and send email to the user.
+function SubscribeUser($email, $name) {
+	$resp = "-1";
+	$mail = "-1";
+	try {
+		$query = "insert into Subscribe(UserName, UserEmail) values('$name', '$email');";
+		$rs = mysql_query($query);
+		if(!$rs) {
+			$resp = "-1";
+		}
+		else {
+			$resp = "1";
+			$mail = SendSubscribeMail($email, $name);
+		}
+		echo $resp . " ~~ " . $mail;
+	}
+	catch(Exception $e) {
+		$resp = "-1";
+		echo $resp . " ~~ " . $mail;
+	}
+}
 
 // to get the Startups data from the backend database.
 function GetStartupsThumbnailData() {

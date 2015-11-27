@@ -467,6 +467,52 @@
                 contentModalBody.html("<iframe src='" + pdfLink + "' width='100%' scrolling='no' frameborder='0'></iframe>");
                 contentModalTitle.html(pdfHeading);
                 contentModal.modal('show');                
+                return false;
+            });
+
+            // for the subscribe request ajax call
+            $('#form-subscribe').submit(function() {
+
+                var txtSubscribeName = $('#txt-subscribe-name').val().trim();
+                var txtSubscribeEmail = $('#txt-subscribe-email').val().trim();
+
+                showLoading();
+                $('#subscribe-modal').modal('hide');
+                $.ajax({
+                    type: "GET",
+                    url: "AJAXFunctions.php",
+                    data: {
+                        no: "1", name: txtSubscribeName, email: txtSubscribeEmail
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        var res = response.split(" ~~ ");
+                        var resp = res[0];
+                        var mail = res[1];
+
+                        if(resp == "1") {  // success case for db insertion
+                            if(mail == "-1") {
+                                popup.children('p').remove();
+                                popup.append("<p>Thank you for subscribing to M-R Compendium. We'll be in touch soon.</p>").fadeIn();           
+                            }
+                            else {
+                                popup.children('p').remove();
+                                popup.append("<p>Thank you for subscribing to M-R Compendium. Please check your inbox for all the news related to the courses offered by Mentored-Research.</p>").fadeIn();              
+                            }
+                        }
+                        else {
+                            popup.children('p').remove();
+                            popup.append("<p>Oops! We encountered an error during this operation. Please try again.</p>").fadeIn();       
+                        }
+                    },
+                    error: function(err) {
+                        popup.children('p').remove();
+                        popup.append("<p>Oops! We encountered an error during this operation. Please try again.</p>").fadeIn();   
+                    },
+                    complete: function() {
+                        hideLoading();
+                    }
+                });
 
                 return false;
             });
