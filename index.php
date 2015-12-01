@@ -125,6 +125,10 @@
             .content-modal-body, .content-modal-body > iframe {
                 height: 400px;
             }
+
+            .btn-social-login {
+                margin: 8% 0%;
+            }
         }   
 
         /*for the tablets and all*/
@@ -136,7 +140,11 @@
             .content-modal-body, .content-modal-body > iframe {
                 width: 100%;
                 height: 400px;
-            }            
+            }           
+
+            .btn-social-login {
+                margin: 8% 0%;
+            } 
         }
 
         /*for medium screens and desktops*/
@@ -148,6 +156,10 @@
             .content-modal-body, .content-modal-body > iframe {
                 height: 700px;
             }            
+
+            .btn-social-login {
+                margin: 4% 0%;
+            }
         }
 
         /*for large screens*/ 
@@ -158,6 +170,10 @@
 
             .content-modal-body, .content-modal-body > iframe {
                 height: 700px;
+            }
+
+            .btn-social-login {
+                margin: 4% 0%;
             }
         }
 
@@ -236,20 +252,6 @@
                 return false;
             });
 
-            // for the loading overlay hiding and showing
-            var overlay = $('#overlay').addClass('overlay-remove');
-            function showLoading() {
-                overlay.removeClass('overlay-remove');
-                overlay.addClass('overlay-show');
-            }
-            function hideLoading() {
-                overlay.removeClass('overlay-show');
-                overlay.addClass('overlay-remove'); 
-            }
-
-            // hide the loading here after the page has been loaded.
-            hideLoading();
-
         });   // end of window.load function
 
         // for the main ready function
@@ -276,9 +278,6 @@
                 overlay.removeClass('overlay-show');
                 overlay.addClass('overlay-remove'); 
             }
-
-            // show the loading here while the page uploads.
-            showLoading();
 
             // for tracking the mouse clicks 
             if($.cookie('track') == undefined || $.cookie('track') == "undefined" || $.cookie('track') == "0") {  // if cookie does not exists or is 0
@@ -410,6 +409,9 @@
 
                 return false;
             });
+
+            // for triggering the link click of ME on page load.
+            $('.me-link').trigger('click');
 
             // function for the ajax call to the backend for showing all the content.
             function getThumbnailData(payload) {
@@ -566,8 +568,12 @@
                 return false;
             });
 
-            // for triggering the link click of ME on page load.
-            $('.me-link').trigger('click');
+            // for the modal of login button
+            $('#btn-login').on('click', function() {
+                incrementMouseClick();
+                $('#login-modal').modal('show');
+                return false;
+            });
 
         });   // end of document.ready function
 
@@ -822,6 +828,35 @@
             </div>
         </div>
     </footer>
+
+     <!-- for the login modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="login-modal-title" id="myModalLabel">Log in to M-R Compendium</h4>
+                </div>
+                <div class="login-modal-body col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10"> 
+
+                    <button id="btn-fb-login" class="btn btn-lg btn-block btn-social btn-facebook btn-social-login">
+                        <i class="fa fa-facebook"></i>
+                        Facebook Login
+                    </button> 
+
+                    <button id="btn-google-login" class="btn btn-lg btn-block btn-social btn-google btn-social-login">
+                        <i class="fa fa-google"></i>
+                        Google Login
+                    </button>    
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- for the PDF(content) modal -->
     <div class="modal fade" id="content-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
