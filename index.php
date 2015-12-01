@@ -280,14 +280,52 @@
             // show the loading here while the page uploads.
             showLoading();
 
+            // for tracking the mouse clicks 
+            if($.cookie('track') == undefined || $.cookie('track') == "undefined" || $.cookie('track') == "0") {  // if cookie does not exists or is 0
+                $.cookie('track', '0');
+            }
+            function incrementMouseClick() {
+                var clicks = parseInt($.cookie('track'));
+                clicks++;
+                $.cookie('track', clicks.toString());
+                console.log("No. of clicks: " + clicks);
+                return $.cookie('track');
+            }
+            //document.addEventListener('click', incrementMouseClick);
+
              // for checking the query string and all.
             var qs = getQueryStrings();
 
             // for the subscribe button click
             $('#btn-subscribe').on('click', function() {
                  $('#subscribe-modal').modal('show');
+                 incrementMouseClick();
                 return false;
             });
+            // for quicklink buttons click
+            $('.quick-link').on('click', function() {
+                var link = $(this).attr('data-content');
+                if(link == "privacy") {
+                    $('#privacy-policy-modal').modal('show');
+                }
+                else if(link == "terms") {
+                    $('#terms-conditions-modal').modal('show');
+                }
+                incrementMouseClick();
+                return false;
+            });
+            // for the social button clicking
+            $('.social-link-fb').on('click', function() {
+                incrementMouseClick();
+                window.open("https://www.facebook.com/pages/Mentored-Researchs-Equity-Research-Initiative/313860081992430?ref=br_tf", "_blank");
+                return false;
+            });
+            $('.social-link-in').on('click', function() {
+                incrementMouseClick();
+                window.open("https://www.linkedin.com/company/2217419?trk=tyah&trkInfo=tarId%3A1401993298521%2Ctas%3Amentored%2Cidx%3A1-3-3", "_blank");
+                return false;
+            });
+
 
             // ------------------------ CLIENT jQUERY LOGIC ------------------------
 
@@ -366,6 +404,10 @@
                         popup.append("<p>Oops! We encountered an error during this operation. Please try again.</p>").fadeIn();
                     }
                 }
+
+                // for mouse click tracking
+                incrementMouseClick();
+
                 return false;
             });
 
@@ -466,7 +508,11 @@
                 pdfLink = pdfLink.replace('../', '');
                 contentModalBody.html("<iframe src='" + pdfLink + "' width='100%' scrolling='no' frameborder='0'></iframe>");
                 contentModalTitle.html(pdfHeading);
-                contentModal.modal('show');                
+                contentModal.modal('show');    
+
+                // for mouse click tracking
+                incrementMouseClick();
+
                 return false;
             });
 
@@ -513,6 +559,9 @@
                         hideLoading();
                     }
                 });
+
+                // for mouse click tracking
+                incrementMouseClick();
 
                 return false;
             });
@@ -756,17 +805,17 @@
                     <ul class="list-inline social-buttons">
                         <!-- <li><a href="#"><i class="fa fa-twitter"></i></a>
                         </li> -->
-                        <li><a href="https://www.facebook.com/pages/Mentored-Researchs-Equity-Research-Initiative/313860081992430?ref=br_tf" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <li><a class="social-link-fb"><i class="fa fa-facebook"></i></a>
                         </li>
-                        <li><a href="https://www.linkedin.com/company/2217419?trk=tyah&trkInfo=tarId%3A1401993298521%2Ctas%3Amentored%2Cidx%3A1-3-3" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        <li><a class="social-link-in"><i class="fa fa-linkedin"></i></a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-md-4">   <!-- TODO -->
                     <ul class="list-inline quicklinks">
-                        <li><a href="#" data-toggle="modal" data-target="#privacy-policy-modal">Privacy Policy</a>
+                        <li><a href="#" class="quick-link" data-content="privacy">Privacy Policy</a>
                         </li>
-                        <li><a href="#" data-toggle="modal" data-target="#terms-conditions-modal">Terms of Use</a>
+                        <li><a href="#" class="quick-link" data-content="terms" >Terms of Use</a>
                         </li>
                     </ul>
                 </div>
