@@ -20,6 +20,21 @@ else if(isset($_GET["payload"]) && $_GET["payload"] == "startup") {
 else if(isset($_GET["no"]) && $_GET["no"] == "1") {
 	SubscribeUser($_GET["email"], $_GET["name"]);
 }
+else if(isset($_GET["no"]) && $_GET["no"] == "2") {
+	RegisterUser($_GET["userData"], $_GET["noClicks"]);
+}
+
+// to register the user based on the response given by fb/google.
+function RegisterUser($userData, $noClicks) {
+	$resp = "-1";
+	try {
+		
+	}
+	catch(Exception $e) {
+		$resp = "-1";
+		echo $resp;
+	}
+}
 
 // to subscribe the user to the database list and send email to the user.
 function SubscribeUser($email, $name) {
