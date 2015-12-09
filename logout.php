@@ -1,5 +1,16 @@
-<?php
-    session_start();
+<?php 
+	
+	session_start();
+
+	if(isset($_POST["btnLogout"])) {  // button is pressed
+		unset($_SESSION["name"]);
+		session_destroy();
+		echo "logged out." . $_SESSION["name"];
+	}	
+	else {
+		echo "reached the page by mistake";
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +31,7 @@
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
 
-    <title>M-R Compendium</title>
+    <title>M-R Compendium - Logout</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -87,7 +98,7 @@
             src: url('fonts/SEGOEUIL.ttf');
         }
 
-        #alertMsg {
+         #alertMsg {
         	width: 60%;
             z-index:999999; 
             margin: 2% 2% 2% 2%;
@@ -115,19 +126,11 @@
             position: relative;
         }
 
-         /*for the smallest phones*/ 
+        /*for the smallest phones*/ 
         @media (max-width:767px){
             .main-content {
                 padding-top: 18%;
             }            
-
-            .content-modal-body, .content-modal-body > iframe {
-                height: 400px;
-            }
-
-            .btn-social-login {
-                margin: 8% 0%;
-            }
         }   
 
         /*for the tablets and all*/
@@ -136,28 +139,12 @@
                 padding-top: 15%;
             }
 
-            .content-modal-body, .content-modal-body > iframe {
-                width: 100%;
-                height: 400px;
-            }           
-
-            .btn-social-login {
-                margin: 8% 0%;
-            } 
         }
 
         /*for medium screens and desktops*/
         @media (min-width:992px){
             .main-content {
                 padding-top: 8%;
-            }
-
-            .content-modal-body, .content-modal-body > iframe {
-                height: 700px;
-            }            
-
-            .btn-social-login {
-                margin: 4% 0%;
             }
         }
 
@@ -166,14 +153,6 @@
             .main-content {
                 padding-top: 8%;
             }            
-
-            .content-modal-body, .content-modal-body > iframe {
-                height: 700px;
-            }
-
-            .btn-social-login {
-                margin: 4% 0%;
-            }
         }
 
         .overlay-show {
@@ -202,73 +181,17 @@
             color: #fff;
         }
 
-        .category-div li {
-            padding-bottom: -5px;
-        }
-
-        .category-div ul li {
-            display: inline-block;
-        }
-
-        .category-div ul li a {
-            color: #000;
-            display: block;
-            font-size: 1.2em;
-            font-weight: 700;
-            padding: 5px 17px;
-            border-radius: 6px;
-            text-transform: capitalize;
-            font-family: writingText;
-        }
-
-        .category-div ul li a:hover,
-        .category-div ul li a.active {
-          background-color: #428bca;
-          font-family: writingText;
-          border-radius: 6px;
-          color: #fff;
-          padding: 5px 17px;
-        }
-        
-        .thumbnail-img {
+        .thumbnailImage {
             border-radius: 50%;
-        }
-
-        .google-hidden {
-            display: none;
-        }
-
-        .hide {
-            display: none;
-        }
-
-        .show {
-            display: block;
         }
 
     </style>
 
     <script type="text/javascript">
-        // for the window.load function
-        $(window).load(function() {
 
-            var alertMsg = $('#alertMsg').fadeOut();
-            var popup = $('#popup').fadeOut();    
-            $('#btnExitPopup').on('click', function() {
-                popup.children('p').remove();
-                popup.fadeOut();
+    	$(document).ready(function() {
 
-                // to hide the progress bar.
-                $('.progress').fadeOut();
-                return false;
-            });
-
-        });   // end of window.load function
-
-        // for the main ready function
-        $(document).ready(function() {
-
-            var alertMsg = $('#alertMsg').fadeOut();
+    		var alertMsg = $('#alertMsg').fadeOut();
             var popup = $('#popup').fadeOut();    
             $('#btnExitPopup').on('click', function() {
                 popup.children('p').remove();
@@ -290,251 +213,9 @@
                 overlay.addClass('overlay-remove'); 
             }
 
-            // for the navbar links and info status line. (just for initialisation)
-            var navbarLinks = $('.navbar-links');
-            var navbarInfo = $('.navbar-info');
-            var navbarInfoText = $('.navbar-info-text');
-
-            // for tracking the mouse clicks 
-            if($.cookie('track') == undefined || $.cookie('track') == "undefined" || $.cookie('track') == "0") {  // if cookie does not exists or is 0
-                $.cookie('track', '0');
-            }
-            function incrementMouseClick() {
-                var clicks = parseInt($.cookie('track'));
-                clicks++;
-                $.cookie('track', clicks.toString());
-                console.log("No. of clicks: " + clicks);
-                return $.cookie('track');
-            }
-            //document.addEventListener('click', incrementMouseClick);
-
-             // for checking the query string and all.
-            var qs = getQueryStrings();
-
-            // for the subscribe button click
+            // for the subscribe button.
             $('#btn-subscribe').on('click', function() {
-                 $('#subscribe-modal').modal('show');
-                 incrementMouseClick();
-                return false;
-            });
-            // for quicklink buttons click
-            $('.quick-link').on('click', function() {
-                var link = $(this).attr('data-content');
-                if(link == "privacy") {
-                    $('#privacy-policy-modal').modal('show');
-                }
-                else if(link == "terms") {
-                    $('#terms-conditions-modal').modal('show');
-                }
-                incrementMouseClick();
-                return false;
-            });
-            // for the social button clicking
-            $('.social-link-fb').on('click', function() {
-                incrementMouseClick();
-                window.open("https://www.facebook.com/pages/Mentored-Researchs-Equity-Research-Initiative/313860081992430?ref=br_tf", "_blank");
-                return false;
-            });
-            $('.social-link-in').on('click', function() {
-                incrementMouseClick();
-                window.open("https://www.linkedin.com/company/2217419?trk=tyah&trkInfo=tarId%3A1401993298521%2Ctas%3Amentored%2Cidx%3A1-3-3", "_blank");
-                return false;
-            });
-
-
-            // ------------------------ CLIENT jQUERY LOGIC ------------------------
-
-            // for checking the client session on dashboard.
-            var userSession = "<?php 
-                if(isset($_SESSION['name'])) {  
-                    echo $_SESSION['name']; 
-                } else { 
-                    $_SESSION['name'] = '-1';
-                    echo $_SESSION['name'];
-                } ?>";
-
-            if(userSession == '-1') {
-                console.log("Not logged in.");
-            }
-            else {
-                console.log("Logged in." + userSession);   
-                navbarLinks.removeClass('show');
-                navbarLinks.addClass('hide');
-                navbarInfo.removeClass('hide');
-                navbarInfo.addClass('show');
-                navbarInfoText.html("Welcome, " + userSession.split(" ")[0] + "!");
-            }
-
-
-            var macroeconomicDiv = $('.macroeconomic-div').hide();
-            macroeconomicDiv.attr('data-shown', '1');  // change the shown status
-            var financeDiv = $('.finance-div').hide();
-            var sectorDiv = $('.sector-div').hide();
-            var startupDiv = $('.startup-div').hide();
-
-            // this is for showing the correct content div on click of the nav links.
-            $('a.filter').on('click', function() {
-                var selector = $(this).attr('data-filter');
-                if($(this).hasClass('active')) {
-
-                }
-                else {
-                    if(selector == "macroeconomic") {
-                        changeActiveState(this);
-                        showDiv(macroeconomicDiv);
-
-                        // check the dirty bit and show stuff
-                        if(macroeconomicDiv.attr('data-dirty') == "0") {
-                            getThumbnailData("macroeconomic");
-                            macroeconomicDiv.attr('data-dirty', '1')
-                        }
-                    }
-                    else if(selector == "financial") {
-                        changeActiveState(this);
-                        showDiv(financeDiv);
-
-                        // check the dirty bit and show stuff
-                        if(financeDiv.attr('data-dirty') == "0") {
-                            getThumbnailData("financial");
-                            financeDiv.attr('data-dirty', '1')
-                        }
-                    }
-                    else if(selector == "sector") {
-                        changeActiveState(this);
-                        showDiv(sectorDiv);
-
-                        // check the dirty bit and show stuff
-                        if(sectorDiv.attr('data-dirty') == "0") {
-                            getThumbnailData("sector");
-                            sectorDiv.attr('data-dirty', '1')
-                        }
-                    }
-                    else if(selector == "startup") {
-                        changeActiveState(this);
-                        showDiv(startupDiv);
-
-                        // check the dirty bit and show stuff
-                        if(startupDiv.attr('data-dirty') == "0") {
-                            getThumbnailData("startup");
-                            startupDiv.attr('data-dirty', '1')
-                        }
-                    }
-                    else {
-                        popup.children('p').remove();
-                        popup.append("<p>Oops! We encountered an error during this operation. Please try again.</p>").fadeIn();
-                    }
-                }
-
-                // for mouse click tracking
-                incrementMouseClick();
-
-                return false;
-            });
-
-            // for triggering the link click of ME on page load.
-            $('.me-link').trigger('click');
-
-            // function for the ajax call to the backend for showing all the content.
-            function getThumbnailData(payload) {
-                showLoading();
-                $.ajax({
-                    type: "GET",
-                    url: "AJAXFunctions.php",
-                    data: {
-                        payload: payload
-                    },
-                    success: function(response) {
-                        if(response[0] == "-1") {  // error condition.
-                            popup.children('p').remove();
-                            popup.append("<p>Oops! We encountered an error during this operation. Please try again.</p>").fadeIn();   
-                        }
-                        else if(response[0] == "-2") {
-                            popup.children('p').remove();
-                            popup.append("<p>No data is available for this section on the server.</p>").fadeIn();      
-                        }
-                        else {
-                            var wrap = "0";
-                            var index = 0;
-                            if(payload == "macroeconomic") {
-                                // for loop for iterating over all the results.
-                                for(var i = 0;i<response.length;i++) {
-                                    index = ((i+1) % 4);
-                                    if(index == 0) {
-                                        wrap = ".me-4";
-                                    }
-                                    else {
-                                        wrap = ".me-" + index;
-                                    }
-                                    $(wrap).append(response[i]);
-                                }
-                            }   // end of macroecnomic else if
-                            else if(payload == "financial") {
-                                // for loop for iterating over all the results.
-                                for(var i = 0;i<response.length;i++) {
-                                    index = ((i+1) % 4);
-                                    if(index == 0) {
-                                        wrap = ".fd-4";
-                                    }
-                                    else {
-                                        wrap = ".fd-" + index;
-                                    }
-                                    $(wrap).append(response[i]);
-                                }
-                            }   // end of financial else if
-                            else if(payload == "sector") {
-                                // for loop for iterating over all the results.
-                                for(var i = 0;i<response.length;i++) {
-                                    index = ((i+1) % 4);
-                                    if(index == 0) {
-                                        wrap = ".sb-4";
-                                    }
-                                    else {
-                                        wrap = ".sb-" + index;
-                                    }
-                                    $(wrap).append(response[i]);
-                                }
-                            }   // end of sector else if
-                            else if(payload == "startup") {
-                                // for loop for iterating over all the results.
-                                for(var i = 0;i<response.length;i++) {
-                                    index = ((i+1) % 4);
-                                    if(index == 0) {
-                                        wrap = ".su-4";
-                                    }
-                                    else {
-                                        wrap = ".su-" + index;
-                                    }
-                                    $(wrap).append(response[i]);
-                                }
-                            }   // end of startup else if
-                        }   // end of else
-                    },  
-                    error: function(err) {
-                        popup.children('p').remove();
-                        popup.append("<p>Oops! We encountered an error during this operation. Please try again.</p>").fadeIn();   
-                    },
-                    complete: function() {
-                        hideLoading();
-                    }
-                });
-            }
-    
-            // for getting the modal containing the PDF.
-            $('.div-main').delegate('.thumbnail-link', 'click', function() {
-                var link = $(this);  // getting the clicked link here.
-                var contentModal = $('#content-modal');
-                var contentModalTitle = $('.content-modal-title');
-                var contentModalBody = $('.content-modal-body');
-                var pdfHeading = link.attr('data-name');
-                var pdfLink = link.attr('data-url');
-                pdfLink = pdfLink.replace('../', '');
-                contentModalBody.html("<iframe src='" + pdfLink + "' width='100%' scrolling='no' frameborder='0'></iframe>");
-                contentModalTitle.html(pdfHeading);
-                contentModal.modal('show');    
-
-                // for mouse click tracking
-                incrementMouseClick();
-
+                $('#subscribe-modal').modal('show');
                 return false;
             });
 
@@ -582,236 +263,47 @@
                     }
                 });
 
-                // for mouse click tracking
-                incrementMouseClick();
+                return false;
+            });   // end of form-subscribe
 
+            // for the button clicks of each of the products.
+            $('#btn-compendium').on('click', function() {
+                window.location.href = "http://compendium.mentored-research.com/";
                 return false;
             });
 
-            // for the modal of login button
-            $('#btn-login').on('click', function() {
-                incrementMouseClick();
-                $('#login-modal').modal('show');
+            $('#btn-ta').on('click', function() {
+                window.location.href = "http://mentored-research.com#tap";
                 return false;
             });
 
-            // -------------------------------------- Facebook login ----------------------------------------
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
+            $('#btn-eri').on('click', function() {
+                window.location.href = "http://mentored-research.com/";
+                return false;
+            });
 
-            // This is called with the results from from FB.getLoginStatus().
-            function statusChangeCallback(response) {
-                console.log('statusChangeCallback');
-                console.log(response);
-                // The response object is returned with a status field that lets the
-                // app know the current login status of the person.
-                // Full docs on the response object can be found in the documentation
-                // for FB.getLoginStatus().
-                if (response.status === 'connected') {
-                    // Logged into your app and Facebook.
-                    testAPI();
-                } else if (response.status === 'not_authorized') {
-                    // The person is logged into Facebook, but not your app.
-                    document.getElementById('status').innerHTML = 'Please log ' +
-                    'into this app.';
-                } else {
-                    // The person is not logged into Facebook, so we're not sure if
-                    // they are logged into this app or not.
-                    document.getElementById('status').innerHTML = 'Please log ' +
-                    'into Facebook.';
+            // for quicklink buttons click
+            $('.quick-link').on('click', function() {
+                var link = $(this).attr('data-content');
+                if(link == "privacy") {
+                    $('#privacy-policy-modal').modal('show');
                 }
-            }
-
-            // This function is called when someone finishes with the Login
-            // Button.  See the onlogin handler attached to it in the sample
-            // code below.
-            // function checkLoginState() {
-            //     FB.getLoginStatus(function(response) {
-            //       statusChangeCallback(response);
-            //     });
-            // }
-
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : '802885419774376',
-                    cookie     : true,  // enable cookies to allow the server to access 
-                                    // the session
-                    xfbml      : true,  // parse social plugins on this page
-                    version    : 'v2.2' // use version 2.2
-                });
-
-                // Now that we've initialized the JavaScript SDK, we call 
-                // FB.getLoginStatus().  This function gets the state of the
-                // person visiting this page and can return one of three states to
-                // the callback you provide.  They can be:
-                //
-                // 1. Logged into your app ('connected')
-                // 2. Logged into Facebook, but not your app ('not_authorized')
-                // 3. Not logged into Facebook and can't tell if they are logged into
-                //    your app or not.
-                //
-                // These three cases are handled in the callback function.
-
-                // FB.getLoginStatus(function(response) {
-                //     statusChangeCallback(response);
-                // });
-            };
-
-            $('#btn-fb-login').on('click', function() {
-
-                incrementMouseClick();
-                FB.login(function(response) {
-                    if (response.status === 'connected') {    // Logged into your app and Facebook.
-                        login();
-                    } 
-                    else if (response.status === 'not_authorized') {   // The person is logged into Facebook, but not your app.
-                        popup.children('p').remove();
-                        popup.append("<p>Looks like you have not authorized M-R Compendium for your account access. Please try again.</p>").fadeIn();
-                    } 
-                    else {
-                        popup.children('p').remove();
-                        popup.append("<p>Please log into Facebook before continuing with M-R Compendium.</p>").fadeIn();  
-                    }
-                });
-                
+                else if(link == "terms") {
+                    $('#terms-conditions-modal').modal('show');
+                }
+                return false;
             });
-
-
-            // Here we run a very simple test of the Graph API after login is
-            // successful.  See statusChangeCallback() for when this call is made.
-            function login() {
-                FB.api('/me', function(fbResponse) {
-                    
-                    showLoading();
-                    $('#login-modal').modal('hide');
-                    $.ajax({
-                        type: "GET",
-                        url: "AJAXFunctions.php",
-                        data: {
-                            no: "2", userData: fbResponse, noClicks: $.cookie('track')
-                        },
-                        success: function(response) {
-                            console.log(response);
-
-                            // make the cases and show the user's name in the top navbar.
-                            if(response == "0" || response == "1") {  // the user already exists.
-                                // remove the login and subscribe button here and show welcome tag.
-                                navbarLinks.addClass('hide');
-                                navbarLinks.removeClass('show');
-                                navbarInfo.addClass('show');
-                                navbarInfoText.html("Welcome, " + fbResponse.name.split(" ")[0] + "!");
-                            }
-                            else {  // error case
-                                popup.children('p').remove();
-                                popup.append("<p>Oops! We encountered an error while logging you in. Please try again.</p>").fadeIn();
-                            }
-
-                        },
-                        error: function() {
-                            popup.children('p').remove();
-                            popup.append("<p>Oops! We encountered an error while processing your request. Please try again.</p>").fadeIn();
-                        },
-                        complete: function() {
-                            hideLoading();
-                        }
-                    });  // end of ajax request
-
-                });   
-            }   // end of login()
-
-            // for the logout functionality
-            $('#btn-logout').on('click', function() {
-                $('#btnLogout').trigger('click');
+            // for the social button clicking
+            $('.social-link-fb').on('click', function() {
+                window.open("https://www.facebook.com/pages/Mentored-Researchs-Equity-Research-Initiative/313860081992430?ref=br_tf", "_blank");
+                return false;
+            });
+            $('.social-link-in').on('click', function() {
+                window.open("https://www.linkedin.com/company/2217419?trk=tyah&trkInfo=tarId%3A1401993298521%2Ctas%3Amentored%2Cidx%3A1-3-3", "_blank");
                 return false;
             });
 
-        });   // end of document.ready function
-
-    </script>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
-
-    <script type="text/javascript">
-
-        // for the loading overlay hiding and showing
-        var overlay = $('#overlay').addClass('overlay-remove');
-        function hideLoading() {
-            overlay.removeClass('overlay-show');
-            overlay.addClass('overlay-remove'); 
-        }
-        function showLoading() {
-            overlay.removeClass('overlay-remove');
-            overlay.addClass('overlay-show');
-        }
-
-        var gpLogin = function() {
-        var myParams = {
-            'clientid': '885746868563-d3p5dubviq8dra1726u6937njlus3a22.apps.googleusercontent.com',
-            'cookiepolicy': 'single_host_origin',
-            'callback': 'mySignInCallback',
-            'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-            };
-            gapi.auth.signIn(myParams);
-        };
-
-        var mySignInCallback = function(authResult) {
-            if (authResult['status']['signed_in'] && authResult['status']['method'] === 'PROMPT') {
-                gapi.client.load('plus', 'v1', loadProfile);
-            }
-        };
-
-        var loadProfile = function() {
-            var request = gapi.client.plus.people.get({ 'userId': 'me' });
-            request.execute(loadProfileCallback);
-        };
-
-        var loadProfileCallback = function(obj) {
-            var userData = {
-                'name': obj.displayName,
-                'email': obj.emails[0],
-                'profile': obj.url
-            };
-
-            $('#overlay').removeClass('overlay-remove');
-            $('#overlay').addClass('overlay-show');
-            $('#login-modal').modal('hide');
-            $.ajax({
-                type: "GET",
-                url: "AJAXFunctions.php",
-                data: {
-                    no: "2", userData: userData, noClicks: $.cookie('track')
-                },
-                success: function(response) {
-                    console.log(response);
-                    // make the cases and show the user's name in the top navbar.
-                    if(response == "0" || response == "1") {  // the user already exists.
-                        $('.navbar-links').addClass('hide');
-                        $('.navbar-links').removeClass('show');
-                        $('.navbar-info').addClass('show');
-                        $('.navbar-info-text').html("Welcome, " + userData.name.split(" ")[0] + "!");
-                    }
-                    else {  // error case
-                        popup.children('p').remove();
-                        popup.append("<p>Oops! We encountered an error while logging you in. Please try again.</p>").fadeIn();
-                    }
-
-                },
-                error: function() {
-                    popup.children('p').remove();
-                    popup.append("<p>Oops! We encountered an error while processing your request. Please try again.</p>").fadeIn();
-                },
-                complete: function() {
-                    $('#overlay').removeClass('overlay-show');
-                    $('#overlay').addClass('overlay-remove'); 
-                }
-            });   // end of ajax call.
-        }
+    	});  // end of ready function()
 
     </script>
 
@@ -828,9 +320,7 @@
 
 <body class="index" id="page-top">
 
-    <img src="img/aluminiBack.png" style="width: 100%; z-index: -2; position: fixed;" />
-
-    <div class="overlay-remove" id="overlay">
+	<div class="overlay-remove" id="overlay">
         <div class="overlay-img">
             <img src="img/load.gif" />
         </div>
@@ -862,191 +352,98 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">M-R Compendium</a>
+                <a class="navbar-brand page-scroll" href="http://compendium.mentored-research.com">M-R Compendium</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                <ul class="nav navbar-nav navbar-right navbar-info hide">
-                    <li role="presentation" class="dropdown">
-                        <a class="navbar-info-text dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false"></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#" id="btn-logout" style="color: black;">Logout</a>
-                                <form id="form-logout" action="logout.php" style="display: none;" method="POST">
-                                    <input type="submit" name="btnLogout" id="btnLogout" />
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
                 <ul class="nav navbar-nav navbar-right navbar-links">
                     <li>
                         <a href="#" id="btn-subscribe">Subscribe</a>
                     </li>
                     <li>
-                        <a href="#" id="btn-login">Login</a>
+                        <a href="http://mentored-research.com">M-R Home</a>
                     </li>
                 </ul>
             </div>   <!-- /.navbar-collapse -->
         </div>   <!-- /.container-fluid -->
     </nav>   <!-- ./ navigation -->
 
+    <!-- for the main content -->
     <section class="main-content">
         <div class="container-fluid">
-            <div class="row">
-                <!-- for all the categories in a list -->
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12 category-div">
-                    <ul class="list-inline text-center">
-                        <li><a href="javascript:;" data-filter="macroeconomic" class="filter me-link">MacroEconomic Insights</a></li>
-                        <li><a href="javascript:;" data-filter="financial" class="filter fd-link">Financial Deals</a></li>
-                        <li><a href="javascript:;" data-filter="sector" class="filter sb-link">Sector Bites</a></li>
-                        <li><a href="javascript:;" data-filter="startup" class="filter su-link">Startups</a></li>
-                    </ul>
+        	<div class="row">	
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+                    <h1 class="page-header">
+                        Thank you.
+                    </h1>
+                    <p>
+                        Thank you for using The Compendium, a quick news refresher product by Mentored-Research. Check out more of our services below.
+                    </p>
                 </div>
-            </div>   <!-- ./ row -->
-
-            <!-- <hr> -->
+        	</div>   <!-- ./ row -->
 
             <div class="row">
 
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12 div-main macroeconomic-div" data-shown="0" data-dirty="0">
-                    <h2 class="page-header">
-                        Macro Economics
-                    </h2>
-
-                    <!-- for all the thumbnails -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        
-                        <!-- for the first column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 me me-1">                             
-                           <!-- data will come from ajax here -->
-                        </div>   <!-- end of first column -->
-
-                        <!-- for the second column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 me me-2">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of second column -->
-
-                        <!-- for the third column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 me me-3">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of third column -->
-
-                        <!-- for the fourth column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 me me-4">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of fourth column -->
-
-                    </div>   <!-- end of thumbnails wrapper -->
-
-                </div>   <!-- end of macroeconomic div -->
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
 
 
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12 div-main finance-div" data-shown="0" data-dirty="0">
-                    <h2 class="page-header">
-                        Financial Deals
-                    </h2>
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="thumbnail compendium">
+                            <img src="img/compendium/1.jpg" class="thumbnailImage" />
+                            <div class="caption">
+                                <h3>
+                                    <a href="http://mentored-research.com/Compendium" target="_blank">Compendium</a>
+                                </h3>
+                                <p>
+                                    In this world where knowledge is power, it is important to be aware of the recent developments around you, be it news on the macroeconomic trends or the latest financial deals. With a crisp summary of the important developments in the past quarter, The Compendium is the go-to resource to move one step closer to success.
+                                </p>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block" id="btn-compendium">
+                                Check out Compendium
+                            </button>
+                        </div>
+                    </div>
 
-                    <!-- for all the thumbnails -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        
-                        <!-- for the first column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 fd fd-1">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of first column -->
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="thumbnail technical">
+                            <img src="img/technical/1.jpg" class="thumbnailImage" />
+                            <div class="caption">
+                                <h3>
+                                    <a href="http://mentored-research.com#tap" target="_blank">Technical Analysis</a>
+                                </h3>
+                                <p>
+                                    The program Technical Analysis is designed to impart skills that will enable students to trade in the stock markets. The students are empowered to forecast future price activity of stocks based on historic market data, price and volume information. Understanding the tools of technical analysis is crucial for a short-term investor, professionally, as a day trader and momentum trader, or personally as well. 
+                                </p>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block" id="btn-ta">
+                                Check out TA 
+                            </button>
+                        </div>
+                    </div>
 
-                        <!-- for the second column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 fd fd-2">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of second column -->
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="thumbnail eri">
+                            <img src="img/eri/1.jpg" class="thumbnailImage" />
+                            <div class="caption">
+                                <h3>
+                                    <a href="http://mentored-research.com/" target="_blank">Equity Research Initiative</a>
+                                </h3>
+                                <p>
+                                    Equity Research Initiative, the flagship program of Mentored-Research, is a 6 week course designed to help participants in the art of smart and logical investing. This is done by dealing with an application-based approach to analyses of securities. 
+                                </p>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block" id="btn-eri">
+                                Check out ERI
+                            </button>
+                        </div>
+                    </div>
 
-                        <!-- for the third column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 fd fd-3">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of third column -->
+                </div>
 
-                        <!-- for the fourth column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 fd fd-4">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of fourth column -->
-
-                    </div>   <!-- end of thumbnails wrapper -->
-
-                </div>   <!-- end of financial div -->
-
-
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12 div-main sector-div" data-shown="0" data-dirty="0">
-                    <h2 class="page-header">
-                        Sector Bites
-                    </h2>
-
-                    <!-- for all the thumbnails -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        
-                        <!-- for the first column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 sb sb-1">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of first column -->
-
-                        <!-- for the second column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 sb sb-2">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of second column -->
-
-                        <!-- for the third column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 sb sb-3">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of third column -->
-
-                        <!-- for the fourth column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 sb sb-4">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of fourth column -->
-
-                    </div>   <!-- end of thumbnails wrapper -->
-
-                </div>   <!-- end of sector div -->
-
-
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12 div-main startup-div" data-shown="0" data-dirty="0">
-                    <h2 class="page-header">
-                        Startup
-                    </h2>
-
-                    <!-- for all the thumbnails -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        
-                        <!-- for the first column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 su su-1">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of first column -->
-
-                        <!-- for the second column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 su su-2">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of second column -->
-
-                        <!-- for the third column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 su su-3">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of third column -->
-
-                        <!-- for the fourth column -->
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 su su-4">                             
-                            <!-- data will come from ajax here -->
-                        </div>   <!-- end of fourth column -->
-
-                    </div>   <!-- end of thumbnails wrapper -->
-
-                </div>   <!-- end of startup div -->
-
-            </div>  <!-- end of row -->
-
-        </div>   <!-- ./ container-fluid -->
-    </section>   <!-- ./ section -->
+            </div>
+        </div>
+    </section>     <!-- ./ section -->
 
     <!-- for the footer -->
     <footer>
@@ -1077,58 +474,7 @@
         </div>
     </footer>
 
-     <!-- for the login modal -->
-    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="login-modal-title" id="myModalLabel">Log in to M-R Compendium</h4>
-                </div>
-                <div class="login-modal-body col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10"> 
-
-                    <button id="btn-fb-login" class="btn btn-lg btn-block btn-social btn-facebook btn-social-login">   <!-- onclick="checkLoginState();" -->
-                        <i class="fa fa-facebook"></i>
-                        Facebook Login
-                    </button> 
-
-                    <button id="btn-google-login" class="btn btn-lg btn-block btn-social btn-google btn-social-login" onclick="gpLogin();">
-                        <i class="fa fa-google"></i>
-                        Google Login
-                    </button>
-
-                    <!-- <div id="my-signin2" class="google-hidden" ></div>  -->  <!--  -->
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- for the PDF(content) modal -->
-    <div class="modal fade" id="content-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="content-modal-title" >Content here</h4>
-                </div>
-
-                <div class="content-modal-body"> 
-                    
-                </div>   <!-- end of content-modal-body -->
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>   <!-- end of subscribe-modal -->
-
-    <!-- for the subscribe modal -->
+        <!-- for the subscribe modal -->
     <div class="modal fade" id="subscribe-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1172,7 +518,7 @@
         </div>
     </div>   <!-- end of subscribe-modal -->
 
-     <!-- these are for the privacy policy and the terms and conditions modals -->
+    <!-- these are for the privacy policy and the terms and conditions modals -->
     <div class="modal fade" id="privacy-policy-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">

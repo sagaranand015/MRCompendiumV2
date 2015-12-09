@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // for all the helper functions required for the Compendium
 
 //these are for the PHP Helper files
@@ -7,6 +9,33 @@ include 'headers/databaseConn.php';
 
 // for mandrill mail sending API.
 require_once 'mandrill/Mandrill.php'; 
+
+// to check if the user email exists in the database already.
+// Returns 1 if email exists. otherwise, 0 if email does NOT exists.
+function CheckEmail($email) {
+	$resp = "-1";
+	try {
+		$query = "select * from Users where UserEmail='$email'";
+		$rs = mysql_query($query);
+		if(!$rs) {
+			$resp = "-1";
+		}
+		else {
+			if(mysql_num_rows($rs) > 0) {
+				$resp = "1";
+			}
+			else {
+				$resp = "0";
+			}
+		}
+		return $resp;
+	}
+	catch(Exception $e) {
+		$resp = "-1";
+		return $resp;
+	}
+}
+
 
 // to send the subscribe mail
 function SendSubscribeMail($email, $name) {

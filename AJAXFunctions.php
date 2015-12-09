@@ -1,5 +1,7 @@
 <?php 
 	
+session_start();
+
 // for all the AJAX functions to be used.
 //these are for the PHP Helper files
 include('headers/databaseConn.php');
@@ -25,10 +27,35 @@ else if(isset($_GET["no"]) && $_GET["no"] == "2") {
 }
 
 // to register the user based on the response given by fb/google.
+// returns 0 if email already exists. 1 if insertion successful. -1 on error.
 function RegisterUser($userData, $noClicks) {
 	$resp = "-1";
+	$response = array();
 	try {
-		
+		$email = $userData["email"];
+		$name = $userData["name"];
+		$profile = $userData["id"];
+
+		// if the email exists.
+		if(CheckEmail($email) == "1") {
+			$resp = "0";
+			$_SESSION["name"] = $name;
+		}
+		else if(CheckEmail($email) == "0") {
+			$query = "insert into Users(UserEmail, UserName, UserProfile) values('$email', '$name', '$profile')";
+			$rs = mysql_query($query);
+			if(!$rs) {
+				$resp = "-1";
+			}
+			else {
+				$resp = "1";
+				$_SESSION["name"] = $name;
+			}
+		}
+		else {
+			$resp = "-1";
+		}
+		echo $resp;
 	}
 	catch(Exception $e) {
 		$resp = "-1";
